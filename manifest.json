@@ -1,0 +1,15 @@
+{
+    "manifest_version": 3,
+    "name": "Views Blocker",
+    "description": "Block views in twitter",
+    "version": "1.0",
+    "content_scripts": [
+        {
+          "js": ["scripts/content-script.js"],
+          "matches": [
+            "https://twitter.com/*"
+          ],
+          "run_at": "document_end"
+        }
+      ]
+  }
