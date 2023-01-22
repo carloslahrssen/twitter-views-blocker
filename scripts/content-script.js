@@ -22,30 +22,19 @@ const elementEnum = {
  */
  window.onload = function() {
     const body = document.querySelector(elementEnum.BODY)
-    bodyObserver.observe(body, {childList: true})
+    bodyObserver.observe(body, {attributes: true, childList: true, subtree: true})
 }
 
 /**
  * This is the initial observer that is essentially waiting for react div to mount
  */
  const bodyObserver = new MutationObserver(mutationList => {
-    const individualTweet = document.querySelector('[data-testid="cellInnerDiv"]')
-    const timeline = individualTweet?.parentElement
-
-    if(timeline) {
-        timelineObserver.observe(timeline, {childList: true})
-    }
-})
-
-/**
- * After react div is mounted and we found our timeline we can then get into our group
- * and find the 
- */
-const timelineObserver = new MutationObserver(mutationList => {
-    const group = document.querySelectorAll('[role="group"]')
-    if(group.length) {
-        window.dispatchEvent(new CustomEvent('groupRoleExists', {detail: group}))
-    }
+    mutationList.forEach((mutation) => {
+        const allTwitterViews = mutation.target.querySelectorAll('[data-testid="tweet"] [role="group"] div:has(a[href*="analytics"]')
+        allTwitterViews.forEach((twitterView) => {
+            twitterView.remove()
+        } )
+    })
 })
 
 /**
